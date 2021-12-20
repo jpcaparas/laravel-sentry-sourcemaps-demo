@@ -15,6 +15,7 @@ Sentry.init({
         }),
     ],
     tracesSampleRate: 1.0,
+    debug: true
 });
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
