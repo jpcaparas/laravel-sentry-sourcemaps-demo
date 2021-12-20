@@ -4,6 +4,8 @@ import Vue from 'vue';
 import * as Sentry from "@sentry/vue";
 import { Integrations } from "@sentry/tracing";
 
+Vue.config.silent = false;
+
 Sentry.init({
     Vue,
     dsn: process.env.SENTRY_LARAVEL_DSN,
