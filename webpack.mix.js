@@ -1,9 +1,10 @@
 const mix = require('laravel-mix');
 const webpack = require('webpack'); 
 
-// replace accordingly './.env' with the path of your .env file 
+// Allows reading of directives from the `.env` file.
 require('dotenv').config({ path: './.env' }); 
 
+// Sends source file artefacts to Sentry for source mapping 
 const SentryWebpackPlugin = require("@sentry/webpack-plugin")
 
 /*
@@ -17,6 +18,8 @@ const SentryWebpackPlugin = require("@sentry/webpack-plugin")
  |
  */
 
+// We only want certain configs and plugins to run on production
+// We don't want to send the source files to Sentry every time front-end files are rebundled
 const isProduction = process.env.APP_ENV === 'production';
 
 const commonPlugins = [
@@ -40,7 +43,7 @@ if (isProduction) {
             release: process.env.SENTRY_RELEASE,
       
             // other SentryWebpackPlugin configuration
-            include: ".",
+            include: "./resources",
             ignore: ["node_modules", "webpack.config.js", "webpack.mix.js"],
           }),
         ],
