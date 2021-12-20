@@ -10,7 +10,7 @@
                     </div>
 
                     <p>
-                        <button @click.native="onClick">Click me to trigger an error.</button>
+                        <button @click="onClick">Click me to trigger an error.</button>
                     </p>
                 </div>
             </div>
