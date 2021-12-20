@@ -10,7 +10,7 @@
                     </div>
 
                     <p>
-                        <button @click="onClick">Click me to trigger an error.</button>
+                        <button @click.native="onClick">Click me to trigger an error.</button>
                     </p>
                 </div>
             </div>
@@ -26,6 +26,8 @@
 
         methods: {
             onClick() {
+                someUndefinedFunction();
+
                 throw new Error('Such is life.');
             }
         }
