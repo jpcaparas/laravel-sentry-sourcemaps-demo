@@ -17,27 +17,41 @@ const SentryWebpackPlugin = require("@sentry/webpack-plugin")
  |
  */
 
-mix.webpackConfig({
-    // other webpack configuration
-    devtool: 'source-map',
-    plugins: [
-      new webpack.DefinePlugin({
+const isProduction = process.env.APP_ENV === 'production';
+
+const commonPlugins = [
+    new webpack.DefinePlugin({
         "process.env": JSON.stringify(process.env)
       }),
-      new SentryWebpackPlugin({
-        // sentry-cli configuration - can also be done directly through sentry-cli
-        // see https://docs.sentry.io/product/cli/configuration/ for details
-        authToken: process.env.SENTRY_AUTH_TOKEN,
-        org: "personal-vuc",
-        project: "personal-vuc",
-        release: process.env.SENTRY_RELEASE,
-  
-        // other SentryWebpackPlugin configuration
-        include: ".",
-        ignore: ["node_modules", "webpack.config.js", "webpack.mix.js"],
-      }),
-    ],
-  });
+];
+
+if (isProduction) {
+    mix.webpackConfig({
+        // other webpack configuration
+        devtool: 'source-map',
+        plugins: [
+          ...commonPlugins,
+          new SentryWebpackPlugin({
+            // sentry-cli configuration - can also be done directly through sentry-cli
+            // see https://docs.sentry.io/product/cli/configuration/ for details
+            authToken: process.env.SENTRY_AUTH_TOKEN,
+            org: process.env.SENTRY_ORG,
+            project: process.env.SENTRY_PROJECT,
+            release: process.env.SENTRY_RELEASE,
+      
+            // other SentryWebpackPlugin configuration
+            include: ".",
+            ignore: ["node_modules", "webpack.config.js", "webpack.mix.js"],
+          }),
+        ],
+      });
+} else {
+    mix.webpackConfig({
+        plugins: [
+            ...commonPlugins,
+        ]
+    });     
+}
 
 mix.js('resources/js/app.js', 'public/js')
     .vue()
