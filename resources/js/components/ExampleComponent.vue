@@ -26,8 +26,6 @@
 
         methods: {
             onClick() {
-                someUndefinedFunction();
-
                 throw new Error('Such is life.');
             }
         }
